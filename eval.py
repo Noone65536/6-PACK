@@ -49,21 +49,21 @@ for choose_cate in choose_cate_list:
     model.cuda()
     model.eval()
 
-    model.load_state_dict(torch.load('{0}/{1}'.format(opt.outf, resume_models[choose_cate-1])))
+    model.load_state_dict(torch.load('{0}/{1}'.format(opt.outf, resume_models[choose_cate-1])))  # 导入models
 
     pconf = torch.ones(opt.num_kp) / opt.num_kp
     pconf = Variable(pconf).cuda()
 
-    test_dataset = Dataset('val', opt.dataset_root, False, opt.num_points, choose_cate, 1000)
+    test_dataset = Dataset('val', opt.dataset_root, False, opt.num_points, choose_cate, 1000)  # 类似于打开dataset？
     criterion = Loss(opt.num_kp, opt.num_cates)
 
     eval_list_file = open('dataset/eval_list/eval_list_{0}.txt'.format(choose_cate), 'r')
     while 1:
-        input_line = eval_list_file.readline()
+        input_line = eval_list_file.readline() 
         if not input_line:
             break
-        if input_line[-1:] == '\n':
-            input_line = input_line[:-1]
+        if input_line[-1:] == '\n': # [-1:] 表示列表中最后一个元素构成的切片
+            input_line = input_line[:-1] # [:-1]表示除了最后一个元素构成的切片（从头开始到最后一个元素之前）
         _, choose_obj, choose_video = input_line.split(' ')
 
         try:
