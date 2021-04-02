@@ -320,9 +320,9 @@ class Dataset():
 
         return current_r, current_t
 
-    def build_frame(self, min_x, max_x, min_y, max_y, min_z, max_z):
+    def build_frame(self, min_x, max_x, min_y, max_y, min_z, max_z):  # 这个函数是用来画3d的框框的
         bbox = []
-        for i in np.arange(min_x, max_x, 1.0):
+        for i in np.arange(min_x, max_x, 1.0): # 起点，终点，步长
             bbox.append([i, min_y, min_z])
         for i in np.arange(min_x, max_x, 1.0):
             bbox.append([i, min_y, max_z])
@@ -353,13 +353,13 @@ class Dataset():
         return bbox
 
     def projection(self, path, Kp, current_r, current_t, scale, www, add_on, score):
-        img = np.array(Image.open('{0}_color.png'.format(self.real_obj_list[self.choose_obj][self.index])))
+        img = np.array(Image.open('{0}_color.png'.format(self.real_obj_list[self.choose_obj][self.index]))) # 打开一张图片，变成np.array 格式而已
 
         cam_cx = self.cam_cx_2
         cam_cy = self.cam_cy_2
         cam_fx = self.cam_fx_2
         cam_fy = self.cam_fy_2
-        cam_scale = 1.0
+        cam_scale = 1.0   # 这一堆是啥我就没看懂了
 
         target_r = current_r
         target_t = current_t
@@ -374,7 +374,7 @@ class Dataset():
             target.append([float(input_line[0]), float(input_line[1]), float(input_line[2])])
         input_file.close()
         target = np.array(target)
-        limit = search_fit(target)
+        limit = search_fit(target) # limit是找出的x y z的最值
         bbox = self.build_frame(limit[0], limit[1], limit[2], limit[3], limit[4], limit[5])
         anchor_box, scale = self.get_anchor_box(bbox)
         anchor_box = anchor_box * scale
@@ -513,7 +513,7 @@ def get_2dbbox(cloud, cam_cx, cam_cy, cam_fx, cam_fy, cam_scale):
     return rmin, rmax, cmin, cmax
 
 
-def search_fit(points):
+def search_fit(points):   #输入是 n * 3 的矩阵，然后把x,y,z的最值找了出来
     min_x = min(points[:, 0])
     max_x = max(points[:, 0])
     min_y = min(points[:, 1])
