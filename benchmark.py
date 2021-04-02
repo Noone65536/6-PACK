@@ -135,7 +135,7 @@ def main():
         all_score25.append([])
         all_rot_err.append([])
         all_trans_err.append([])
-        pred_data_dir = pred_data + str(exp)
+        pred_data_dir = pred_data + str(exp) # pred_data_dir = [eval_results/TEST_1 , eval_results/TEST_2]
         score = 0
         score_25 = 0
         rot_err = 0
@@ -145,10 +145,10 @@ def main():
             cls_test_num = 0
             cls_in_5_5 = 0
             cls_iou_25 = 0
-            cls_path = os.path.join(data_dir, "data_list/real_val", str(cls_idx))
+            cls_path = os.path.join(data_dir, "data_list/real_val", str(cls_idx)) # data_list/real_val/1, 里头是XXX_XXX_norm这样的文件
             cls_rot = []
             cls_trans = []
-            model_list = glob.glob(os.path.join(cls_path, "*"))
+            model_list = glob.glob(os.path.join(cls_path, "*")) # glob是啥？
             for model_path in model_list:
                 scene_his = ""
                 model_num = 0
@@ -158,13 +158,14 @@ def main():
                 print(model_name)
                 if not model_name in score_dict:
                     score_dict[model_name] = {}
-                list_path = os.path.join(model_path, "list.txt")
+                list_path = os.path.join(model_path, "list.txt") # 这个list.txt应该是在data_list/real_val/1/XXX_XXX_norm里面的，写的都是image path
                 with open(list_path, 'r') as list_file:
                     for img_path in list_file:
                         img_path = os.path.join(data_dir, "data", img_path)
                         img_path = img_path.replace("\n", "")
                         scene = img_path.split("/")[-2]
-                        nocs_gt_path = os.path.join(data_dir, "data", "gts", "real_test", "results_real_test_" + scene + "_" + img_path.split("/")[-1] + ".pkl")
+                        nocs_gt_path = os.path.join(data_dir, "data", "gts", "real_test", "results_real_test_" + scene + "_" + img_path.split("/")[-1] + ".pkl") 
+                        #导入nocs 的gt  .pkl里的文件是什么？ 
                         if not os.path.exists(nocs_gt_path):
                             continue
                         cls_num = cls_num + 1
@@ -179,12 +180,13 @@ def main():
                             scene_num = 0
                             scene_in = 0
                         pred_path = os.path.join(pred_data_dir, "temp_" + str(cls_idx), model_name + "_" + scene + "_" + str(model_num) + "_pose.txt")
+                        # 上面这一串应该就是pred出的6d pose了，我可以先改写一个只算rotation的
                         model_num = model_num + 1
                         scene_num = scene_num + 1
                         if not os.path.exists(pred_path):
                             print(pred_path)
                             continue 
-                        obj_path = img_path + "_meta.txt"
+                        obj_path = img_path + "_meta.txt"  # 这个meta是什么东西？？
                         ins_id = -1
                         num_idx = 0
                         with open(obj_path, "r") as obj_f:
