@@ -186,7 +186,7 @@ def main():
                         if not os.path.exists(pred_path):
                             print(pred_path)
                             continue 
-                        obj_path = img_path + "_meta.txt"  # 这个meta是什么东西？？
+                        obj_path = img_path + "_meta.txt"  # 这个meta里面好像写了这个image里有多少个object
                         ins_id = -1
                         num_idx = 0
                         with open(obj_path, "r") as obj_f:
