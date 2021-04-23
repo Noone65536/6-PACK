@@ -111,10 +111,10 @@ for choose_cate in choose_cate_list:
                                                      Variable(cloud_fr).cuda(), \
                                                      Variable(anchor).cuda(), \
                                                      Variable(scale).cuda()
-                Kp_to, att_to = model.eval_forward(img_fr, choose_fr, cloud_fr, anchor, scale, min_dis, False)
+                Kp_to, att_to = model.eval_forward(img_fr, choose_fr, cloud_fr, anchor, scale, min_dis, False) # Kp_to 应该是点集
 
                 min_dis = 1000.0
-                lenggth = len(Kp_to)
+                lenggth = len(Kp_to) # 一共有多少个keypoint?
                 for idx in range(lenggth):
                     Kp_real, new_r, new_t, kp_dis, att = criterion.ev(Kp_fr[0], Kp_to[idx], att_to[idx])
 
